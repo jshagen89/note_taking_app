@@ -21,7 +21,8 @@ public class EditorActivity extends AppCompatActivity {
     private EditText editor;
     private String noteFilter;
     private String oldText;
-    private Button saveButton;
+    private MenuItem saveButton;
+    private Menu editorMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +34,22 @@ public class EditorActivity extends AppCompatActivity {
 
         // get reference to editText that user is interacting with
         editor = (EditText) findViewById(R.id.editNote);
-        saveButton = (Button) findViewById(R.id.action_save_note);
 
-
-
+        // Add Listener text change listener to save button to enable when user types
+        editor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editorMenu != null)
+                {
+                    saveButton = editorMenu.findItem(R.id.action_save_note);
+                    saveButton.setEnabled(true);
+                }
+            }
+        });
 
         // Check to see if a new note should be created
         Intent myIntent = getIntent();
@@ -67,14 +80,16 @@ public class EditorActivity extends AppCompatActivity {
     // Creates Options menu in the Action Bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        editorMenu = menu;
+
         // Only show item if user is editing an existing note
         if (action.equals(Intent.ACTION_EDIT))
         {
-            getMenuInflater().inflate(R.menu.menu_editor, menu);
+            getMenuInflater().inflate(R.menu.menu_editor, editorMenu);
         }
         else
         {
-            getMenuInflater().inflate(R.menu.menu_new_note, menu);
+            getMenuInflater().inflate(R.menu.menu_new_note, editorMenu);
         }
 
         return true;

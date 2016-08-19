@@ -12,4 +12,5 @@
     <string name="action_delete_note">Delete Note</string>
     <string name="note_deleted">Note Deleted</string>
     <string name="save_note">Save</string>
+    <string name="editor_hint">Begin Typing Your New Note Here...</string>
 </resources>
