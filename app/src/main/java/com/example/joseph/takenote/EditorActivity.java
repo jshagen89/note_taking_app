@@ -7,8 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ public class EditorActivity extends AppCompatActivity {
     private EditText editor;
     private String noteFilter;
     private String oldText;
+    private Button saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +29,14 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // get reference to editText that user is interacting with
         editor = (EditText) findViewById(R.id.editNote);
+        saveButton = (Button) findViewById(R.id.action_save_note);
+
+
+
 
         // Check to see if a new note should be created
         Intent myIntent = getIntent();
@@ -64,6 +72,10 @@ public class EditorActivity extends AppCompatActivity {
         {
             getMenuInflater().inflate(R.menu.menu_editor, menu);
         }
+        else
+        {
+            getMenuInflater().inflate(R.menu.menu_new_note, menu);
+        }
 
         return true;
     }
@@ -79,6 +91,10 @@ public class EditorActivity extends AppCompatActivity {
             case R.id.action_delete_note:
                 deleteNote();
                 break;
+            case R.id.action_save_note:
+                saveNote();
+                break;
+
         }
         return true;
     }
@@ -144,9 +160,8 @@ public class EditorActivity extends AppCompatActivity {
         setResult(RESULT_OK);
     }
 
-    // Called if user presses the back button while editing a note
-    @Override
-    public void onBackPressed() {
+    // Called if user presses the save button while editing a note
+    public void saveNote () {
         finishedEditing();
     }
 }
