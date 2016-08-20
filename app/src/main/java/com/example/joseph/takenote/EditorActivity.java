@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,6 +46,7 @@ public class EditorActivity extends AppCompatActivity {
                 {
                     saveButton = editorMenu.findItem(R.id.action_save_note);
                     saveButton.setEnabled(true);
+                    saveButton.setIcon(R.drawable.ic_save_white);
                 }
             }
         });
@@ -68,12 +68,17 @@ public class EditorActivity extends AppCompatActivity {
             noteFilter = DBOpenHelper.NOTE_ID + "=" + myUri.getLastPathSegment();
             Cursor myCursor = getContentResolver().query(myUri,DBOpenHelper.ALL_COLUMNS,
                     noteFilter,null,null);
-            myCursor.moveToFirst();
-            oldText = myCursor.getString(myCursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
 
-            // Place note text in the editor and place cursor at end of text string
-            editor.setText(oldText);
-            editor.requestFocus();
+            if (myCursor != null)
+            {
+                myCursor.moveToFirst();
+                oldText = myCursor.getString(myCursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
+
+                // Place note text in the editor and place cursor at end of text string
+                editor.setText(oldText);
+                editor.requestFocus();
+                myCursor.close();
+            }
         }
     }
 
@@ -177,6 +182,13 @@ public class EditorActivity extends AppCompatActivity {
 
     // Called if user presses the save button while editing a note
     public void saveNote () {
+        finishedEditing();
+    }
+
+    // Called if user presses the save button while editing a note
+    @Override
+    public void onBackPressed () {
+
         finishedEditing();
     }
 }
