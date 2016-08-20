@@ -1,6 +1,8 @@
 package com.example.joseph.takenote;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -29,12 +31,16 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        // get reference to editText that user is interacting with
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
+        // get reference to editText that user is interacting with and save button
         editor = (EditText) findViewById(R.id.editNote);
 
-        // Add Listener text change listener to save button to enable when user types
+        // Add text change listener to edit text to enable save when text different length
         editor.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -44,9 +50,18 @@ public class EditorActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (editorMenu != null)
                 {
-                    saveButton = editorMenu.findItem(R.id.action_save_note);
-                    saveButton.setEnabled(true);
-                    saveButton.setIcon(R.drawable.ic_save_white);
+                    if (editor.getText().toString().length() != oldText.length())
+                    {
+                        saveButton = editorMenu.findItem(R.id.action_save_note);
+                        saveButton.setEnabled(true);
+                        saveButton.setIcon(R.drawable.ic_save_white);
+                    }
+                    else
+                    {
+                        saveButton = editorMenu.findItem(R.id.action_save_note);
+                        saveButton.setEnabled(false);
+                        saveButton.setIcon(R.drawable.ic_save_gray);
+                    }
                 }
             }
         });
@@ -60,6 +75,7 @@ public class EditorActivity extends AppCompatActivity {
             // Create a new note if matching id not found in db
             action = Intent.ACTION_INSERT;
             setTitle(getString(R.string.new_note_title));
+            oldText = "";
         }
         else
         {
@@ -112,7 +128,7 @@ public class EditorActivity extends AppCompatActivity {
                 deleteNote();
                 break;
             case R.id.action_save_note:
-                saveNote();
+                finishedEditing();
                 break;
 
         }
@@ -122,7 +138,7 @@ public class EditorActivity extends AppCompatActivity {
     // Called when user is finished typing their note
     private void finishedEditing()
     {
-        String newNoteText = editor.getText().toString().trim();
+        String newNoteText = editor.getText().toString();
 
         switch (action)
         {
@@ -181,14 +197,36 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     // Called if user presses the save button while editing a note
-    public void saveNote () {
-        finishedEditing();
-    }
-
-    // Called if user presses the save button while editing a note
     @Override
     public void onBackPressed () {
+        // If there is content in editor, ask if user wants to save before going back
+        if (editor.getText().toString().length() != oldText.length())
+        {
+            DialogInterface.OnClickListener dialogClickListener =
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int button) {
+                            if (button == DialogInterface.BUTTON_POSITIVE) {
+                                finishedEditing();
+                            }
+                            else
+                            {
+                                setResult(RESULT_CANCELED);
+                                finish();
+                            }
+                        }
+                    };
 
-        finishedEditing();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.save_note_confirm))
+                    .setPositiveButton(getString(android.R.string.yes), dialogClickListener)
+                    .setNegativeButton((getString(R.string.no)), dialogClickListener)
+                    .show();
+        }
+        else
+        {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
     }
 }

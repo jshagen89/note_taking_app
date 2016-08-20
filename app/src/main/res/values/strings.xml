@@ -13,4 +13,6 @@
     <string name="note_deleted">Note Deleted</string>
     <string name="save_note">Save</string>
     <string name="editor_hint">Begin Typing Your New Note Here...</string>
+    <string name="save_note_confirm">Would You Like To Save??</string>
+    <string name="no">No</string>
 </resources>

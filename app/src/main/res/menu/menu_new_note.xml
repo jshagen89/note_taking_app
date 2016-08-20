@@ -9,6 +9,6 @@
         android:icon="@drawable/ic_save_gray"
         android:orderInCategory="100"
         android:enabled="false"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>
