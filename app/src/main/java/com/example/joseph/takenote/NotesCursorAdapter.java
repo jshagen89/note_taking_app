@@ -20,15 +20,29 @@ public class NotesCursorAdapter extends CursorAdapter{
         return LayoutInflater.from(context).inflate(R.layout.note_list_item,parent,false);
     }
 
+    // Convert the timestamp to regular time and format
     private String formatDateCreated(String date)
     {
         String[] timeStampParts = date.split(" ");
         String[] dateParts = timeStampParts[0].split("-");
         String[] timeParts = timeStampParts[1].split(":");
+        String hour = timeParts[0];
 
-        // Need to convert from military time to regular time here
-        
-        return (dateParts[1] + "-" + dateParts[2] + "-" + dateParts[0] + "  " + timeParts[0] + ":" + timeParts[1]);
+        // Convert from military time to regular time
+        int hourNum = Integer.parseInt(hour);
+        String amPM;
+
+        if (hourNum >= 12)
+            amPM = "PM";
+        else
+            amPM = "AM";
+
+        if (hourNum >= 13)
+        {
+            hourNum -= 12;
+        }
+
+        return (dateParts[1] + "-" + dateParts[2] + "-" + dateParts[0] + "  " + hourNum + ":" + timeParts[1] + " " + amPM);
     }
 
     @Override
