@@ -72,23 +72,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_create_sample:
-                InsertSampleNotes();
-                break;
             case R.id.action_delete_all:
                 DeleteAllNotes();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void InsertSampleNotes() {
-        insertNote("Simple Note Test");
-        insertNote("Multi-line\nNote");
-        insertNote("This is an example of a very long note that exceeds the width of the screen" +
-                "of the device on which I have loaded this app!");
-
-        restartLoader();
     }
 
     private void DeleteAllNotes() {
