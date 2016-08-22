@@ -35,7 +35,7 @@ public class EditorActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null)
         {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         // get reference to editText that user is interacting with and save button
@@ -81,6 +81,7 @@ public class EditorActivity extends AppCompatActivity {
             if (myCursor != null)
             {
                 myCursor.moveToFirst();
+                setTitle("Existing Note");
                 oldText = myCursor.getString(myCursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
 
                 // Place note text in the editor and place cursor at end of text string
@@ -115,7 +116,7 @@ public class EditorActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                finishedEditing();
+                confirmSaveOnBack();
                 break;
             case R.id.action_delete_note:
                 deleteNote();
@@ -192,6 +193,10 @@ public class EditorActivity extends AppCompatActivity {
     // Called if user presses the save button while editing a note
     @Override
     public void onBackPressed () {
+        confirmSaveOnBack();
+    }
+
+    private void confirmSaveOnBack() {
         // If there is content in editor, ask if user wants to save before going back
         if (madeChanges)
         {

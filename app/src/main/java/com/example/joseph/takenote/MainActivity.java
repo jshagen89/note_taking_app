@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("My Notes");
 
         // Query the notes database
         myCursorAdapter = new NotesCursorAdapter(this,null,0);
