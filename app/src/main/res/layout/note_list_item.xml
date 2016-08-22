@@ -15,14 +15,29 @@
         android:id="@+id/tvNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"
         android:layout_margin="4dp"
         android:layout_toEndOf="@+id/imageDocIcon"
         android:layout_toRightOf="@+id/imageDocIcon"
         android:singleLine="true"
-        android:text="Dummy Text"
+        android:text=""
         android:textColor="@color/listItemText"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/date_created"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/tvNote"
+        android:layout_toRightOf="@+id/tvNote"
+        android:singleLine="true"
+        android:text=""
+        android:gravity="end"
+        android:textColor="@color/listItemText"
+        android:textSize="18sp"
+        android:layout_margin="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
