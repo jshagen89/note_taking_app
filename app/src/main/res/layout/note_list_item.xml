@@ -9,30 +9,51 @@
         android:id="@+id/imageDocIcon"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_centerVertical="true"
         android:src="@drawable/ic_action_document_icon" />
 
-    <TextView
-        android:id="@+id/tvNote"
+    <LinearLayout
+        android:id="@+id/subjectAndNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentEnd="false"
         android:layout_alignParentRight="false"
-        android:layout_margin="4dp"
         android:layout_toEndOf="@+id/imageDocIcon"
-        android:layout_toRightOf="@+id/imageDocIcon"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="@color/listItemText"
-        android:textSize="18sp" />
+        android:layout_toRightOf="@+id/imageDocIcon" >
+
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="SUBJECT"
+            android:textColor="@color/listItemText"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="NOTE"
+            android:textColor="@color/listItemText"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/date_created"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/tvNote"
-        android:layout_toRightOf="@+id/tvNote"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/subjectAndNote"
+        android:layout_toRightOf="@+id/subjectAndNote"
         android:singleLine="true"
-        android:text=""
+        android:text="DATE"
         android:gravity="end"
         android:textColor="@color/listItemText"
         android:textSize="18sp"

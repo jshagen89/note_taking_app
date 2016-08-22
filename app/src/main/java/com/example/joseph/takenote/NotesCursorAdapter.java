@@ -47,10 +47,10 @@ public class NotesCursorAdapter extends CursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // get text of note from database
+        // get text of fields from database
+        String subject = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_SUBJECT));
         String noteText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_TEXT));
         String created_date = cursor.getString(cursor.getColumnIndex(DBOpenHelper.NOTE_CREATED));
-        String formattedDate = formatDateCreated(created_date);
 
         // determine if the note text contains a line feed character
         int position = noteText.indexOf(10);
@@ -58,6 +58,20 @@ public class NotesCursorAdapter extends CursorAdapter{
         {
             noteText = noteText.substring(0,position) + "...";
         }
+
+        // Set subject to No Subject if none exists
+        if (subject == null || subject.length() == 0)
+        {
+            subject = "No Subject";
+        }
+
+
+        // Format the created timestamp
+        String formattedDate = formatDateCreated(created_date);
+
+        // Set the text of the subject view with the note subject
+        TextView subjectTV = (TextView) view.findViewById(R.id.subject);
+        subjectTV.setText(subject);
 
         // Set the text of the view with the note text
         TextView noteTV = (TextView) view.findViewById(R.id.tvNote);
