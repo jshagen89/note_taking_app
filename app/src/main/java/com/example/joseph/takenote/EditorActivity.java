@@ -24,6 +24,7 @@ public class EditorActivity extends AppCompatActivity {
     private String oldText;
     private MenuItem saveButton;
     private Menu editorMenu;
+    private boolean madeChanges = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,18 +51,10 @@ public class EditorActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (editorMenu != null)
                 {
-                    if (editor.getText().toString().length() != oldText.length())
-                    {
-                        saveButton = editorMenu.findItem(R.id.action_save_note);
-                        saveButton.setEnabled(true);
-                        saveButton.setIcon(R.drawable.ic_save_white);
-                    }
-                    else
-                    {
-                        saveButton = editorMenu.findItem(R.id.action_save_note);
-                        saveButton.setEnabled(false);
-                        saveButton.setIcon(R.drawable.ic_save_gray);
-                    }
+                    saveButton = editorMenu.findItem(R.id.action_save_note);
+                    saveButton.setEnabled(true);
+                    saveButton.setIcon(R.drawable.ic_save_white);
+                    madeChanges = true;
                 }
             }
         });
@@ -200,7 +193,7 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public void onBackPressed () {
         // If there is content in editor, ask if user wants to save before going back
-        if (editor.getText().toString().length() != oldText.length())
+        if (madeChanges)
         {
             DialogInterface.OnClickListener dialogClickListener =
                     new DialogInterface.OnClickListener() {
