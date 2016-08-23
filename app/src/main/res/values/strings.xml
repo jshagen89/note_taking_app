@@ -15,4 +15,5 @@
     <string name="editor_hint">Begin Typing Your New Note Here...</string>
     <string name="save_note_confirm">Would You Like To Save??</string>
     <string name="no">No</string>
+    <string name="no_subject">No Subject</string>
 </resources>

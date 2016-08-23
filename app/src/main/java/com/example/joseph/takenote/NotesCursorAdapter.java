@@ -62,7 +62,7 @@ public class NotesCursorAdapter extends CursorAdapter{
         // Set subject to No Subject if none exists
         if (subject == null || subject.length() == 0)
         {
-            subject = "No Subject";
+            subject = context.getString(R.string.no_subject);
         }
 
 
